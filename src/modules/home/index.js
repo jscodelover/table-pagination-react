@@ -1,3 +1,3 @@
-import HomeContainer from "./container/Home";
+import createCodeSplitting from "../../util/codeSplitting";
 
-export default HomeContainer;
+export default createCodeSplitting("home/container/Home");
