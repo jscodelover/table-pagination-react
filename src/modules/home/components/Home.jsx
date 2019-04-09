@@ -104,6 +104,10 @@ class Home extends React.Component {
     });
   };
 
+  showDetails = id => {
+    this.props.history.push(`/user/${id}`);
+  };
+
   paginationRange = () => {
     const { pageNumbers, currentPage } = this.state;
     if (currentPage > 95) {
@@ -116,7 +120,6 @@ class Home extends React.Component {
 
   render() {
     const { loading, data, currentPage, recordPerPage } = this.state;
-    console.log(this.paginationRange());
 
     // Logic for displaying record according to page no.
     const indexOfLastRecord = currentPage * recordPerPage;
@@ -149,7 +152,14 @@ class Home extends React.Component {
           </thead>
           <tbody>
             {currentRecord.map(r => (
-              <tr className="table__row">{this.renderRow(r)}</tr>
+              <tr
+                className="table__row"
+                onClick={() => {
+                  this.showDetails(r.id);
+                }}
+              >
+                {this.renderRow(r)}
+              </tr>
             ))}
           </tbody>
         </table>
