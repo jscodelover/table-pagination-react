@@ -53,7 +53,7 @@ class Home extends React.Component {
   );
 
   renderPageNumbers = pageNumbers => {
-    return pageNumbers.map(number => {
+    let pagination = pageNumbers.map(number => {
       return (
         <li
           key={number}
@@ -65,6 +65,37 @@ class Home extends React.Component {
         </li>
       );
     });
+    return (
+      <>
+        {pageNumbers[0] > 2 ? (
+          <>
+            <li
+              key="1"
+              id="1"
+              className="pagination__item"
+              onClick={this.handleClick}
+            >
+              1
+            </li>
+            <li>...</li>
+          </>
+        ) : null}
+        {pagination}
+        {pageNumbers[0] < 96 ? (
+          <>
+            <li>...</li>
+            <li
+              key="100"
+              id="100"
+              className="pagination__item"
+              onClick={this.handleClick}
+            >
+              100
+            </li>
+          </>
+        ) : null}
+      </>
+    );
   };
 
   handleClick = event => {
@@ -75,13 +106,12 @@ class Home extends React.Component {
 
   paginationRange = () => {
     const { pageNumbers, currentPage } = this.state;
-    if (currentPage === 100) {
+    if (currentPage > 95) {
       return pageNumbers.slice(95, 100);
-    } else if (currentPage < 96) {
-      const indexOfLastPN = currentPage + 4;
-      const indexOfFirstPN = indexOfLastPN - 5;
-      return pageNumbers.slice(indexOfFirstPN, indexOfLastPN);
     }
+    const indexOfLastPN = currentPage + 4;
+    const indexOfFirstPN = indexOfLastPN - 5;
+    return pageNumbers.slice(indexOfFirstPN, indexOfLastPN);
   };
 
   render() {
@@ -125,7 +155,6 @@ class Home extends React.Component {
         </table>
         <ul className="pagination">
           {this.renderPageNumbers(this.paginationRange())}
-          <li>...</li>
         </ul>
       </StyleHome>
     );
