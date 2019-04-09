@@ -8,15 +8,25 @@ class Home extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      data: []
+      data: [],
+      currentPage: 1,
+      recordPerPage: 5,
+      pageNumbers: []
     };
   }
 
   componentDidMount() {
+    const { recordPerPage } = this.state;
     this.setState({ loading: true });
     axios
       .get("http://demo9197058.mockable.io/users")
-      .then(({ data }) => this.setState({ data, loading: false }))
+      .then(({ data }) => {
+        let pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(data.length / recordPerPage); i++) {
+          pageNumbers.push(i);
+        }
+        this.setState({ data, loading: false, pageNumbers });
+      })
       .catch(err => this.setState({ loading: false }));
   }
 
@@ -28,8 +38,54 @@ class Home extends React.Component {
     ));
   };
 
+  renderRow = object => (
+    <>
+      <td className="table__row--content">{object.first_name}</td>
+      <td className="table__row--content">{object.last_name}</td>
+      <td className="table__row--content">{object.company_name}</td>
+      <td className="table__row--content">{object.city}</td>
+      <td className="table__row--content">{object.state}</td>
+      <td className="table__row--content">{object.zip}</td>
+      <td className="table__row--content">{object.email}</td>
+      <td className="table__row--content">{object.web}</td>
+      <td className="table__row--content">{object.age}</td>
+    </>
+  );
+
+  renderPageNumbers = pageNumbers => {
+    return pageNumbers.map(number => {
+      return (
+        <li
+          key={number}
+          className="pagination__item"
+          onClick={this.handleClick}
+        >
+          {number}
+        </li>
+      );
+    });
+  };
+
+  paginationRange = () => {
+    const { pageNumbers, currentPage } = this.state;
+    if (currentPage === 100) {
+      return pageNumbers.slice(95, 100);
+    } else if (currentPage < 96) {
+      const indexOfLastPN = currentPage + 4;
+      const indexOfFirstPN = indexOfLastPN - 5;
+      return pageNumbers.slice(indexOfFirstPN, indexOfLastPN);
+    }
+  };
+
   render() {
-    const { loading } = this.state;
+    const { loading, data, currentPage, recordPerPage } = this.state;
+    console.log(this.paginationRange());
+
+    // Logic for displaying record according to page no.
+    const indexOfLastRecord = currentPage * recordPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordPerPage;
+    const currentRecord = data.slice(indexOfFirstRecord, indexOfLastRecord);
+
     if (loading) return <Loading />;
     return (
       <StyleHome>
@@ -55,9 +111,14 @@ class Home extends React.Component {
             </tr>
           </thead>
           <tbody>
-            <tr className="table__row" />
+            {currentRecord.map(r => (
+              <tr className="table__row">{this.renderRow(r)}</tr>
+            ))}
           </tbody>
         </table>
+        <ul className="pagination">
+          {this.renderPageNumbers(this.paginationRange())}
+        </ul>
       </StyleHome>
     );
   }

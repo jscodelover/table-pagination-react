@@ -49,6 +49,25 @@ const StyleHome = styled.div`
       }
     }
   }
+  .pagination {
+    display: flex;
+    margin: 20px auto;
+    font-size: 16px;
+    list-style-type: none;
+    &__item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0px 12px;
+      cursor: pointer;
+      background: #f1f1f1;
+      text-align: center;
+      border: 1px solid white;
+    }
+    &__active {
+      background: tomato;
+    }
+  }
 `;
 
 export default StyleHome;
