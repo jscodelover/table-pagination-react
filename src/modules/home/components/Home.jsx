@@ -57,12 +57,19 @@ class Home extends React.Component {
       return (
         <li
           key={number}
+          id={number}
           className="pagination__item"
           onClick={this.handleClick}
         >
           {number}
         </li>
       );
+    });
+  };
+
+  handleClick = event => {
+    this.setState({
+      currentPage: Number(event.target.id)
     });
   };
 
@@ -118,6 +125,7 @@ class Home extends React.Component {
         </table>
         <ul className="pagination">
           {this.renderPageNumbers(this.paginationRange())}
+          <li>...</li>
         </ul>
       </StyleHome>
     );

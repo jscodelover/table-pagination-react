@@ -51,6 +51,8 @@ const StyleHome = styled.div`
   }
   .pagination {
     display: flex;
+    justify-content: center;
+    align-items: flex-end;
     margin: 20px auto;
     font-size: 16px;
     list-style-type: none;
@@ -58,7 +60,7 @@ const StyleHome = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0px 12px;
+      padding: 3px 18px;
       cursor: pointer;
       background: #f1f1f1;
       text-align: center;
