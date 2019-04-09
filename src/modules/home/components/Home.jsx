@@ -104,8 +104,9 @@ class Home extends React.Component {
     });
   };
 
-  showDetails = id => {
-    this.props.history.push(`/user/${id}`);
+  showDetails = record => {
+    this.props.detail(record);
+    this.props.history.push(`/user/${record.id}`);
   };
 
   paginationRange = () => {
@@ -155,7 +156,7 @@ class Home extends React.Component {
               <tr
                 className="table__row"
                 onClick={() => {
-                  this.showDetails(r.id);
+                  this.showDetails(r);
                 }}
               >
                 {this.renderRow(r)}
