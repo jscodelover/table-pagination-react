@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "../cmponents/Home";
+import Home from "../components/Home";
 
 const HomeContainer = () => <Home />;
 
