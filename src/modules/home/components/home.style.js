@@ -28,6 +28,7 @@ const StyleHome = styled.div`
       word-wrap: break-word;
       overflow-wrap: break-word;
       word-break: break-all;
+      cursor: pointer;
       &:nth-of-type(even) {
         background-color: #e5e5e5;
       }
@@ -46,6 +47,10 @@ const StyleHome = styled.div`
         border: 1px solid #888888;
         border-collapse: collapse;
         border-spacing: 0;
+      }
+      &:hover {
+        background-color: #312f2f;
+        color: white;
       }
     }
   }

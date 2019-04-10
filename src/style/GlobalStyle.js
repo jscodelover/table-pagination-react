@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.414;
-    font-size: 1.6rem;
+    font-size: 16px;
     font-weight: 300;
     color: #333;
     background-color: #fff;
