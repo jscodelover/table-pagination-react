@@ -244,6 +244,7 @@ class Home extends React.Component {
                 onClick={() => {
                   this.showDetails(r);
                 }}
+                key={r.id}
               >
                 {this.renderRow(r)}
               </tr>

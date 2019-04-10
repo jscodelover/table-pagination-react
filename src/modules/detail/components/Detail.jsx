@@ -10,7 +10,7 @@ const Detail = props => {
     for (let key in props.detail) {
       if (key !== "id" && key !== "first_name" && key !== "last_name") {
         displayData.push(
-          <div className="row">
+          <div className="row" key={key}>
             <span className="row__key">
               {key === "company_name" ? "company" : key}
             </span>
