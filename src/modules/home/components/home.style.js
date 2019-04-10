@@ -39,7 +39,7 @@ const StyleHome = styled.div`
         text-transform: capitalize;
       }
       &--content {
-        padding: 0.5rem 0.1rem;
+        padding: 5px 10px;
         display: flex;
         flex: 1 0;
         align-items: center;
@@ -48,6 +48,11 @@ const StyleHome = styled.div`
         border-collapse: collapse;
         border-spacing: 0;
       }
+
+      &--doubleSize {
+        flex-grow: 2;
+      }
+
       &:hover {
         background-color: #312f2f;
         color: white;

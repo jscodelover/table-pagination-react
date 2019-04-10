@@ -30,27 +30,51 @@ class Home extends React.Component {
       .catch(err => this.setState({ loading: false }));
   }
 
-  heading = columnName => {
-    return columnName.map(col => (
-      <th key={col} className="table__row--content table__row--column-heading">
-        {col}
-      </th>
-    ));
+  doubleSizeCol = field => {
+    return ["company_name", "company name", "email", "web"].some(el =>
+      field.includes(el)
+    );
   };
 
-  renderRow = object => (
-    <>
-      <td className="table__row--content">{object.first_name}</td>
-      <td className="table__row--content">{object.last_name}</td>
-      <td className="table__row--content">{object.company_name}</td>
-      <td className="table__row--content">{object.city}</td>
-      <td className="table__row--content">{object.state}</td>
-      <td className="table__row--content">{object.zip}</td>
-      <td className="table__row--content">{object.email}</td>
-      <td className="table__row--content">{object.web}</td>
-      <td className="table__row--content">{object.age}</td>
-    </>
-  );
+  heading = columnName => {
+    return columnName.map(col => {
+      const classes = "table__row--content table__row--column-heading";
+      return (
+        <th
+          key={col}
+          className={
+            this.doubleSizeCol(col)
+              ? `${classes} table__row--doubleSize`
+              : classes
+          }
+        >
+          {col}
+        </th>
+      );
+    });
+  };
+
+  renderRow = object => {
+    const displayData = [];
+    const classes = "table__row--content";
+    for (let key in object) {
+      if (key !== "id") {
+        displayData.push(
+          <td
+            key={key}
+            className={
+              this.doubleSizeCol(key)
+                ? `${classes} table__row--doubleSize`
+                : classes
+            }
+          >
+            {object[key]}
+          </td>
+        );
+      }
+    }
+    return displayData;
+  };
 
   renderPageNumbers = pageNumbers => {
     let pagination = pageNumbers.map(number => {
