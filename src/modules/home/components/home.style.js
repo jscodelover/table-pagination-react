@@ -2,6 +2,14 @@ import styled from "styled-components";
 
 const StyleHome = styled.div`
   padding: 0 4%;
+  .search {
+    margin: 50px 0px;
+    width: 320px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+  }
   .table {
     display: flex;
     flex-flow: column nowrap;

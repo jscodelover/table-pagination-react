@@ -11,7 +11,9 @@ class Home extends React.Component {
       data: [],
       currentPage: 1,
       recordPerPage: 5,
-      pageNumbers: []
+      pageNumbers: [],
+      searchInput: "",
+      newData: []
     };
   }
 
@@ -76,7 +78,7 @@ class Home extends React.Component {
     return displayData;
   };
 
-  renderPageNumbers = pageNumbers => {
+  renderPageNumbers = (pageNumbers, paginationLength) => {
     let pagination = pageNumbers.map(number => {
       return (
         <li
@@ -105,16 +107,16 @@ class Home extends React.Component {
           </>
         ) : null}
         {pagination}
-        {pageNumbers[0] < 96 ? (
+        {pageNumbers[0] < paginationLength - 4 ? (
           <>
             <li>...</li>
             <li
-              key="100"
-              id="100"
+              key={paginationLength}
+              id={paginationLength}
               className="pagination__item"
               onClick={this.handleClick}
             >
-              100
+              {paginationLength}
             </li>
           </>
         ) : null}
@@ -133,21 +135,23 @@ class Home extends React.Component {
     this.props.history.push(`/user/${record.id}`);
   };
 
-  paginationRange = () => {
+  paginationRange = paginationLength => {
     const { pageNumbers, currentPage } = this.state;
-    if (currentPage > 95) {
-      return pageNumbers.slice(95, 100);
+    if (currentPage > paginationLength - 5) {
+      return pageNumbers.slice(paginationLength - 5, paginationLength);
     }
     const indexOfLastPN = currentPage + 4;
     const indexOfFirstPN = indexOfLastPN - 5;
     return pageNumbers.slice(indexOfFirstPN, indexOfLastPN);
   };
 
-  updateCurrentPage = operation => {
+  updateCurrentPage = (operation, paginationLength) => {
     if (operation === "add")
       this.setState(prevState => ({
         currentPage:
-          prevState.currentPage === 100 ? 100 : prevState.currentPage + 1
+          prevState.currentPage === paginationLength
+            ? paginationLength
+            : prevState.currentPage + 1
       }));
     else
       this.setState(prevState => ({
@@ -155,17 +159,45 @@ class Home extends React.Component {
       }));
   };
 
+  handleInput = event => {
+    const { data } = this.state;
+    let newData = data.filter(r => {
+      return r.first_name
+        .toLowerCase()
+        .includes(event.target.value.toLowerCase());
+    });
+    this.setState({ searchInput: event.target.value, newData });
+  };
+
   render() {
-    const { loading, data, currentPage, recordPerPage } = this.state;
+    const {
+      loading,
+      data,
+      currentPage,
+      recordPerPage,
+      searchInput,
+      newData
+    } = this.state;
+
+    const records = newData.length ? newData : data;
 
     // Logic for displaying record according to page no.
     const indexOfLastRecord = currentPage * recordPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordPerPage;
-    const currentRecord = data.slice(indexOfFirstRecord, indexOfLastRecord);
+    const currentRecord = records.slice(indexOfFirstRecord, indexOfLastRecord);
+
+    let paginationLength = Math.ceil(records.length / recordPerPage);
+    console.log();
 
     if (loading) return <Loading />;
     return (
       <StyleHome>
+        <input
+          className="search"
+          placeholder="Search by First Name"
+          onChange={this.handleInput}
+          value={searchInput}
+        />
         <table className="table">
           <caption className="table__caption">
             <span className="table__caption--text1">Data Peace</span>
@@ -204,7 +236,7 @@ class Home extends React.Component {
           <button
             className="btn"
             onClick={() => {
-              this.updateCurrentPage("sub");
+              this.updateCurrentPage("sub", paginationLength);
             }}
           >
             Previous
@@ -212,14 +244,17 @@ class Home extends React.Component {
           <button
             className="btn"
             onClick={() => {
-              this.updateCurrentPage("add");
+              this.updateCurrentPage("add", paginationLength);
             }}
           >
             Next
           </button>
         </div>
         <ul className="pagination">
-          {this.renderPageNumbers(this.paginationRange())}
+          {this.renderPageNumbers(
+            this.paginationRange(paginationLength),
+            paginationLength
+          )}
         </ul>
       </StyleHome>
     );
