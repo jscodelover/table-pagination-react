@@ -13,7 +13,8 @@ class Home extends React.Component {
       recordPerPage: 5,
       pageNumbers: [],
       searchInput: "",
-      newData: []
+      newData: [],
+      sortBy: ""
     };
   }
 
@@ -33,9 +34,58 @@ class Home extends React.Component {
   }
 
   doubleSizeCol = field => {
-    return ["company_name", "company name", "email", "web"].some(el =>
-      field.includes(el)
-    );
+    return ["company_name", "email", "web"].some(el => field.includes(el));
+  };
+
+  handleClick = event => {
+    this.setState({
+      currentPage: Number(event.target.id)
+    });
+  };
+
+  showDetails = record => {
+    this.props.detail(record);
+    this.props.history.push(`/user/${record.id}`);
+  };
+
+  paginationRange = paginationLength => {
+    const { pageNumbers, currentPage } = this.state;
+    if (currentPage > paginationLength - 5) {
+      return pageNumbers.slice(paginationLength - 5, paginationLength);
+    }
+    const indexOfLastPN = currentPage + 4;
+    const indexOfFirstPN = indexOfLastPN - 5;
+    return pageNumbers.slice(indexOfFirstPN, indexOfLastPN);
+  };
+
+  updateCurrentPage = (operation, paginationLength) => {
+    if (operation === "add")
+      this.setState(prevState => ({
+        currentPage:
+          prevState.currentPage === paginationLength
+            ? paginationLength
+            : prevState.currentPage + 1
+      }));
+    else
+      this.setState(prevState => ({
+        currentPage: prevState.currentPage === 1 ? 1 : prevState.currentPage - 1
+      }));
+  };
+
+  handleInput = event => {
+    const { data } = this.state;
+    let newData = data.filter(r => {
+      return r.first_name
+        .toLowerCase()
+        .includes(event.target.value.toLowerCase());
+    });
+    this.setState({ searchInput: event.target.value, newData });
+  };
+
+  sort = field => {
+    this.setState(prevState => ({
+      sortBy: prevState.sortBy === field ? "" : field
+    }));
   };
 
   heading = columnName => {
@@ -43,14 +93,26 @@ class Home extends React.Component {
       const classes = "table__row--content table__row--column-heading";
       return (
         <th
-          key={col}
+          key={col.label}
           className={
-            this.doubleSizeCol(col)
+            this.doubleSizeCol(col.label)
               ? `${classes} table__row--doubleSize`
               : classes
           }
         >
-          {col}
+          {col.value}
+          <span
+            className="sort"
+            onClick={() => {
+              this.sort(col.label);
+            }}
+          >
+            {this.state.sortBy === col.label ? (
+              <i className="fas fa-caret-up" />
+            ) : (
+              <i className="fas fa-caret-down" />
+            )}
+          </span>
         </th>
       );
     });
@@ -124,51 +186,6 @@ class Home extends React.Component {
     );
   };
 
-  handleClick = event => {
-    this.setState({
-      currentPage: Number(event.target.id)
-    });
-  };
-
-  showDetails = record => {
-    this.props.detail(record);
-    this.props.history.push(`/user/${record.id}`);
-  };
-
-  paginationRange = paginationLength => {
-    const { pageNumbers, currentPage } = this.state;
-    if (currentPage > paginationLength - 5) {
-      return pageNumbers.slice(paginationLength - 5, paginationLength);
-    }
-    const indexOfLastPN = currentPage + 4;
-    const indexOfFirstPN = indexOfLastPN - 5;
-    return pageNumbers.slice(indexOfFirstPN, indexOfLastPN);
-  };
-
-  updateCurrentPage = (operation, paginationLength) => {
-    if (operation === "add")
-      this.setState(prevState => ({
-        currentPage:
-          prevState.currentPage === paginationLength
-            ? paginationLength
-            : prevState.currentPage + 1
-      }));
-    else
-      this.setState(prevState => ({
-        currentPage: prevState.currentPage === 1 ? 1 : prevState.currentPage - 1
-      }));
-  };
-
-  handleInput = event => {
-    const { data } = this.state;
-    let newData = data.filter(r => {
-      return r.first_name
-        .toLowerCase()
-        .includes(event.target.value.toLowerCase());
-    });
-    this.setState({ searchInput: event.target.value, newData });
-  };
-
   render() {
     const {
       loading,
@@ -176,7 +193,8 @@ class Home extends React.Component {
       currentPage,
       recordPerPage,
       searchInput,
-      newData
+      newData,
+      sortBy
     } = this.state;
 
     const records = newData.length ? newData : data;
@@ -184,10 +202,10 @@ class Home extends React.Component {
     // Logic for displaying record according to page no.
     const indexOfLastRecord = currentPage * recordPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordPerPage;
-    const currentRecord = records.slice(indexOfFirstRecord, indexOfLastRecord);
+    let currentRecord = records.slice(indexOfFirstRecord, indexOfLastRecord);
+    currentRecord.sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1));
 
     let paginationLength = Math.ceil(records.length / recordPerPage);
-    console.log();
 
     if (loading) return <Loading />;
     return (
@@ -207,15 +225,15 @@ class Home extends React.Component {
           <thead>
             <tr className="table__row">
               {this.heading([
-                "first name",
-                "last name",
-                "company name",
-                "city",
-                "state",
-                "zip",
-                "email",
-                "web",
-                "age"
+                { label: "first_name", value: "first name" },
+                { label: "last_name", value: "last name" },
+                { label: "company_name", value: "company name" },
+                { label: "city", value: "city" },
+                { label: "state", value: "state" },
+                { label: "zip", value: "zip" },
+                { label: "email", value: "email" },
+                { label: "web", value: "web" },
+                { label: "age", value: "age" }
               ])}
             </tr>
           </thead>

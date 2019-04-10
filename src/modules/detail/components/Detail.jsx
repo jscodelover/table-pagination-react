@@ -24,7 +24,10 @@ const Detail = props => {
   return (
     <StyleDetail>
       <div className="header" onClick={goBack}>
-        <span className="backButton">&#8592;</span> <span>Data Peace</span>
+        <span className="backButton">
+          <i className="fas fa-arrow-left" />
+        </span>
+        <span>Data Peace</span>
       </div>
       <div className="record">
         <h2>

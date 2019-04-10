@@ -45,6 +45,9 @@ const StyleHome = styled.div`
         color: #f3f3f3;
         background-color: #08acbd;
         text-transform: capitalize;
+        .sort {
+          margin-left: 6px;
+        }
       }
       &--content {
         padding: 5px 10px;

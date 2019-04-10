@@ -11,8 +11,8 @@ const StyleDetail = styled.div`
     background-color: #333;
     color: #fff;
     .backButton {
-      vertical-align: text-bottom;
       cursor: pointer;
+      margin-right: 10px;
     }
   }
   .record {
