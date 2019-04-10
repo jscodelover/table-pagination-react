@@ -59,6 +59,24 @@ const StyleHome = styled.div`
       }
     }
   }
+  .btnContainer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    .btn {
+      padding: 10px 0px;
+      width: 110px;
+      color: #00a0b7;
+      background-color: white;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      cursor: pointer;
+      &:hover {
+        box-shadow: 0px 1px 2px;
+      }
+    }
+  }
   .pagination {
     display: flex;
     justify-content: center;

@@ -143,6 +143,18 @@ class Home extends React.Component {
     return pageNumbers.slice(indexOfFirstPN, indexOfLastPN);
   };
 
+  updateCurrentPage = operation => {
+    if (operation === "add")
+      this.setState(prevState => ({
+        currentPage:
+          prevState.currentPage === 100 ? 100 : prevState.currentPage + 1
+      }));
+    else
+      this.setState(prevState => ({
+        currentPage: prevState.currentPage === 1 ? 1 : prevState.currentPage - 1
+      }));
+  };
+
   render() {
     const { loading, data, currentPage, recordPerPage } = this.state;
 
@@ -188,6 +200,24 @@ class Home extends React.Component {
             ))}
           </tbody>
         </table>
+        <div className="btnContainer">
+          <button
+            className="btn"
+            onClick={() => {
+              this.updateCurrentPage("sub");
+            }}
+          >
+            Previous
+          </button>
+          <button
+            className="btn"
+            onClick={() => {
+              this.updateCurrentPage("add");
+            }}
+          >
+            Next
+          </button>
+        </div>
         <ul className="pagination">
           {this.renderPageNumbers(this.paginationRange())}
         </ul>
