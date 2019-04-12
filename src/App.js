@@ -7,8 +7,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/user/:id" component={Detail} />
+        <Route exact path="/table-pagination-react/" component={Home} />
+        <Route exact path="/table-pagination-react/user/:id" component={Detail} />
       </Switch>
     </BrowserRouter>
   );
