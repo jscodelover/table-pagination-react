@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/table-pagination-react/precache-manifest.62f403972bd16fc13e66cf693e308c5b.js"
+  "/table-pagination-react/precache-manifest.2d24ca489ecb0febca2876b9e5fcaa71.js"
 );
 
 workbox.clientsClaim();
