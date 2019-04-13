@@ -22,7 +22,7 @@ class Home extends React.Component {
     const { recordPerPage } = this.state;
     this.setState({ loading: true });
     axios
-      .get("http://demo9197058.mockable.io/users")
+      .get("https://demo9197058.mockable.io/users")
       .then(({ data }) => {
         let pageNumbers = [];
         for (let i = 1; i <= Math.ceil(data.length / recordPerPage); i++) {
