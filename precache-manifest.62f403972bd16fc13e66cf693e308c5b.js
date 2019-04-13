@@ -28,8 +28,8 @@ self.__precacheManifest = [
     "url": "/table-pagination-react/static/js/6.db9d7742.chunk.js"
   },
   {
-    "revision": "882bddf5dc43334b046d",
-    "url": "/table-pagination-react/static/js/main.fd3d8ec7.chunk.js"
+    "revision": "5648d409ce91cc1544cc",
+    "url": "/table-pagination-react/static/js/main.cee33948.chunk.js"
   },
   {
     "revision": "e051c738a8ff871f3022",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/table-pagination-react/static/js/9.1e57cd44.chunk.js"
   },
   {
-    "revision": "e9e7aff9f778ec78dc99c71776c8be10",
+    "revision": "f261e3ff9a9e74d4cb73457ea460c31b",
     "url": "/table-pagination-react/index.html"
   }
 ];
