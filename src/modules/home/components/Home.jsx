@@ -218,9 +218,11 @@ class Home extends React.Component {
         />
         <table className="table">
           <caption className="table__caption">
-            <span className="table__caption--text1">Data Peace</span>
+            <span className="table__caption--text1">Record Display</span>
             <br />
-            <span className="table__caption--text2">Front End Task</span>
+            <span className="table__caption--text2">
+              with custom build pagination, sorting and searching
+            </span>
           </caption>
           <thead>
             <tr className="table__row">
